@@ -14,7 +14,6 @@ const requestHandler=(req,res)=>{
             res.write('</html>');
             return res.end();
         })
-        
     }
     if(url==='/message' && method==='POST'){
         const body=[];
@@ -37,7 +36,6 @@ const requestHandler=(req,res)=>{
             });                   
         })        
     }
-    
     res.write('<html>');
     res.write('<head><title>My first Page</title></head>');
     res.write('<body><h2>Welcome to my NodeJS project</h2></body>');
