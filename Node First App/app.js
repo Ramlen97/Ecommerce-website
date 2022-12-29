@@ -8,15 +8,20 @@ const app= express();
 
 const adminRoutes= require('./routes/admin.js');
 const shopRoutes= require('./routes/shop.js');
+const contactusRoutes=require('./routes/contactus');
+const successRoutes=require('./routes/success');
+
+const errorController=require('./controllers/error');
 
 app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname,'public')));
 
 app.use('/admin',adminRoutes);
 app.use('/shop',shopRoutes);
+app.use('/contactusform',contactusRoutes);
+app.use('/success',successRoutes);
 
-app.use((req,res,next)=>{
-    res.status(404).sendFile(path.join(__dirname,'views','404.html'))
-});
+
+app.use(errorController.error404);
 
 app.listen(3000);
