@@ -7,11 +7,11 @@ const p=path.join(rootDir,'data','cart.json');
 
 module.exports=class Cart {
     static addProduct(id,prodPrice){
-        fs.readFile(p,(err,filecontent)=>{
+        fs.readFile(p,(err,fileContent)=>{
             let cart={products:[],totalPrice:0};
             //Checking if cart is not empty;
             if(!err){
-                cart=JSON.parse(filecontent);
+                cart=JSON.parse(fileContent);
             }
             // Checking if the product is existing in cart or not
             const idx=cart.products.findIndex(prod=>prod.id===id);
@@ -22,11 +22,43 @@ module.exports=class Cart {
             else{
                 cart.products.push({ id: id, qty: 1 });                    
             }
-            cart.totalPrice+=+prodPrice;
+            console.log(prodPrice);
+            cart.totalPrice=cart.totalPrice+(+prodPrice);
             fs.writeFile(p,JSON.stringify(cart),err=>{
                 console.log(err);
             })            
         })
+    }
 
+    static deleteProduct(id,prodPrice){
+        fs.readFile(p,(err,fileContent)=>{
+            if(err){
+                return;
+            }
+            const cart=JSON.parse(fileContent);
+            const product=cart.products.find(prod=>prod.id===id);
+            if(!product){
+                return;
+            }
+            const productQty=product.qty;
+            const updatedProducts=cart.products.filter(prod=>prod.id!==id);
+            cart.products=[...updatedProducts];
+            cart.totalPrice-=productQty*prodPrice;
+            fs.writeFile(p,JSON.stringify(cart),err=>{
+                console.log(err);
+            })
+        })
+    }
+
+    static getCart(cb){
+        fs.readFile(p,(err,fileContent)=>{
+            if(err){
+                cb(null);
+            }
+            else{
+                const cart = JSON.parse(fileContent);
+                cb(cart);
+            }
+        })
     }
 }
