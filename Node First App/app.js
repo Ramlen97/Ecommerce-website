@@ -9,6 +9,7 @@ const errorController = require('./controllers/error');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const userRoutes=require('./routes/user');
+const expenseRoutes=require('./routes/expense');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 app.use('/user',userRoutes);
+app.use('/expenses',expenseRoutes);
 
 app.use(errorController.get404);
 

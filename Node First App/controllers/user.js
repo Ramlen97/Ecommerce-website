@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const sequelize = require('../util/database');
-const path = require('path');
+
 
 exports.getUsers = (req, res, next) => {
     User.findAll()
